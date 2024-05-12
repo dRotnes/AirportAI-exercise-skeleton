@@ -3,8 +3,8 @@ const { authenticate } = require('../middlewares/auth');
 
 const router = express.Router();
 
-router.get('/profile', authenticate, (req, res) => {
-  res.json({ message: `Welcome ${req.user.username}` });
+router.get('/search', (req, res) => {
+  res.json({ message: `Welcome` });
 });
 
 module.exports = router;

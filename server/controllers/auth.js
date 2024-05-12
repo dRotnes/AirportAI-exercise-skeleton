@@ -4,10 +4,10 @@ const User = require('../models/User');
 
 // Register a new user
 const register = async (req, res, next) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, role } = req.body;
 
   try {
-    const user = new User({ username, email, password });
+    const user = new User({ username, email, password, role });
     await user.save();
     res.json({ message: 'Registration successful' });
   } catch (error) {
@@ -31,7 +31,7 @@ const login = async (req, res, next) => {
     }
 
     const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
-      expiresIn: '1 hour'
+      expiresIn: '1 minute'
     });
     res.json({ token });
   } catch (error) {

@@ -6,6 +6,7 @@
 let app = require('express')();
 const authRoutes = require('./server/routes/auth');
 const userRoutes = require('./server/routes/user');
+const agentRoutes = require('./server/routes/agent');
 const initialRoutes = require('./server/routes');
 
 const PORT = process.env.PORT || 3000;
@@ -19,6 +20,7 @@ require('./server/setup/mongoose')();
 // Set up routes.
 app.use('/', initialRoutes);
 app.use('/auth', authRoutes);
+app.use('/agent', agentRoutes);
 app.use('/user', userRoutes);
 
 // Start app.
