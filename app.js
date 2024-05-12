@@ -4,7 +4,11 @@
 'use strict';
 
 let app = require('express')();
-const PORT = 3000;
+const authRoutes = require('./server/routes/auth');
+const userRoutes = require('./server/routes/user');
+const initialRoutes = require('./server/routes');
+
+const PORT = process.env.PORT || 3000;
 
 // Set up Express.
 require('./server/setup/express')(app);
@@ -13,7 +17,9 @@ require('./server/setup/express')(app);
 require('./server/setup/mongoose')();
 
 // Set up routes.
-app.use('/', require('./server/routes'));
+app.use('/', initialRoutes);
+app.use('/auth', authRoutes);
+app.use('/user', userRoutes);
 
 // Start app.
 app.listen(PORT, function() {

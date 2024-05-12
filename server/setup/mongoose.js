@@ -10,6 +10,8 @@ require('dotenv').config();
 
 const connectDB = async () => {
   const DATABASE_URL = process.env.DATABASE_URI;
+  const DATABASE_USER = process.env.DATABASE_USER;
+  const DATABASE_PASS = process.env.DATABASE_PASSWORD;
 
   if (!DATABASE_URL) {
     throw new Error('DATABASE_URL is not set');
