@@ -21,15 +21,18 @@ const login = async (req, res, next) => {
 
   try {
     const user = await User.findOne({ username });
+    // If user doesnt exist return message
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
 
     const passwordMatch = await user.comparePassword(password);
+    // If password doesnt match return message
     if (!passwordMatch) {
       return res.status(401).json({ message: 'Incorrect password' });
     }
 
+    // Create JWT token and return it
     const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
       expiresIn: '1 hour'
     });

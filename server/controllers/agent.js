@@ -18,7 +18,7 @@ const add_product = async (req, res, next) => {
 const list_all = async (req, res, next) => {
   try {
     const products = await Product.find();
-    if(!products){
+    if(products.length == 0){
       return res.status(404).json({ message: 'No products to list' });
     }
 
@@ -32,41 +32,31 @@ const list_all = async (req, res, next) => {
 const delete_product = async (req, res, next) => {
   try {
     const { product_id } = req.body;
+    const product = await Product.deleteOne({_id:product_id})
     
-    const product = await Product.findOne({product_id});
-
-    if(!product){
+    if(product.deletedCount == 0){
       return res.status(404).json({ message: 'Product not found' });
     }
 
-    res.status(200).json({ message: 'Product deleted successfully' });
+    return res.status(200).json({message: `Product with id ${product_id} deleted successfully`})
   } catch (error) {
     next(error);
   }
 };
 
-// // Login with an existing user
-// const login = async (req, res, next) => {
-//   const { username, password } = req.body;
+// Update product status
+const update_product_status = async (req, res, next) => {
+  try {
+    var product_id  = req.query.product_id;
+    const product = await Product.updateOne({_id:product_id}, {$set: {retrieved: true}})
+    
+    if(!product.nModified == 0){
+      return res.status(404).json({ message: 'Product not found' });
+    }
 
-//   try {
-//     const user = await User.findOne({ username });
-//     if (!user) {
-//       return res.status(404).json({ message: 'User not found' });
-//     }
-
-//     const passwordMatch = await user.comparePassword(password);
-//     if (!passwordMatch) {
-//       return res.status(401).json({ message: 'Incorrect password' });
-//     }
-
-//     const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
-//       expiresIn: '1 minute'
-//     });
-//     res.json({ token });
-//   } catch (error) {
-//     next(error);
-//   }
-// };
-
-module.exports = { add_product, list_all , delete_product}
+    return res.status(200).json({message: `Product with id ${product_id} updated successfully`})
+  } catch (error) {
+    next(error);
+  }
+};
+module.exports = { add_product, list_all , delete_product, update_product_status}
