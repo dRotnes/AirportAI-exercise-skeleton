@@ -50,6 +50,10 @@ userSchema.methods.comparePassword = async function (password) {
   return this.password === hash;
 };
 
+userSchema.methods.checkAdminStatus = async function (next) {
+  return this.role == 'admin'
+}
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;

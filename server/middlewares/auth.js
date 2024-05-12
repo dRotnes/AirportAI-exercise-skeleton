@@ -18,6 +18,12 @@ const authenticate = async (req, res, next) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
+    
+    // If user is not admin, return message
+    const authorized = await user.checkAdminStatus();
+    if(!authorized){
+      return res.status(401).json({ message: 'Unauthorized user' });
+    }
 
     // Set request user
     req.user = user;

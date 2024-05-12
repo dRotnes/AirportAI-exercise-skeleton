@@ -1,14 +1,29 @@
-const jwt = require('jsonwebtoken');
 const Product = require('../models/Product');
 
-// Add a new Product
+// Add a new product
 const add_product = async (req, res, next) => {
-  const { product_name, added_by, description } = req.body;
+  const { 
+      product_name,
+      product_category, 
+      product_brand,
+      product_color,
+      product_country,
+      description, 
+      added_by
+  } = req.body;
 
   try {
-    const product = new Product({ product_name, added_by, description });
+    const product = new Product({ 
+      product_name, 
+      product_category, 
+      product_brand,
+      product_color,
+      product_country,
+      description, 
+      added_by  
+    });
     await product.save();
-    res.json({ message: 'Product added to Lost and Founds successfull' });
+    res.json({ message: 'Product added to Lost and Founds successfully' });
   } catch (error) {
     next(error);
   }
@@ -48,7 +63,7 @@ const delete_product = async (req, res, next) => {
 const update_product_status = async (req, res, next) => {
   try {
     var product_id  = req.query.product_id;
-    const product = await Product.updateOne({_id:product_id}, {$set: {retrieved: true}})
+    const product = await Product.updateOne({_id:product_id}, {$set: {retrieved: true, status: 'closed'}})
     
     if(!product.nModified == 0){
       return res.status(404).json({ message: 'Product not found' });
