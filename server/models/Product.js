@@ -9,11 +9,13 @@ const productSchema = new mongoose.Schema(
     product_category:{
         type:String,
         enum:[
+            'Cellphone',
             'Clothing',
             'Eletronics',
             'Jewellery',
             'Books',
             'Documents',
+            'Passport',
             'Other'
         ],
         required:true,
@@ -57,7 +59,8 @@ productSchema.index(
         product_category: 'text', 
         product_brand: 'text', 
         product_color:'text', 
-        product_country:'text'
+        product_country:'text',
+        description:'text'
     }
 );
 

@@ -8,11 +8,11 @@ const add_product = async (req, res, next) => {
       product_brand,
       product_color,
       product_country,
-      description, 
-      added_by
+      description,
   } = req.body;
 
   try {
+    const added_by = req.user.username;
     const product = new Product({ 
       product_name, 
       product_category, 
@@ -25,7 +25,7 @@ const add_product = async (req, res, next) => {
     await product.save();
     res.json({ message: 'Product added to Lost and Founds successfully' });
   } catch (error) {
-    next(error);
+    return res.status(500).json({error: error.message})
   }
 };
 
@@ -39,7 +39,7 @@ const list_all = async (req, res, next) => {
 
     res.json({ products });
   } catch (error) {
-    next(error);
+    return res.status(500).json({error: error.message})
   }
 };
 
@@ -55,23 +55,25 @@ const delete_product = async (req, res, next) => {
 
     return res.status(200).json({message: `Product with id ${product_id} deleted successfully`})
   } catch (error) {
-    next(error);
+    // next(error)
+    return res.status(500).json({error: error.message})
   }
 };
 
 // Update product status
 const update_product_status = async (req, res, next) => {
   try {
-    var product_id  = req.query.product_id;
+    const { product_id } = req.body;
     const product = await Product.updateOne({_id:product_id}, {$set: {retrieved: true, status: 'closed'}})
-    
-    if(!product.nModified == 0){
+    // console.log(product)
+    if(product.modifiedCount == 0){
       return res.status(404).json({ message: 'Product not found' });
     }
 
     return res.status(200).json({message: `Product with id ${product_id} updated successfully`})
   } catch (error) {
-    next(error);
+    // next(error)
+    return res.status(500).json({error: error.message})
   }
 };
 module.exports = { add_product, list_all , delete_product, update_product_status}

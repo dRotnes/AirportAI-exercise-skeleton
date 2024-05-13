@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
 const User = require('../models/User');
+
 
 // Register a new user
 const register = async (req, res, next) => {
@@ -9,14 +9,16 @@ const register = async (req, res, next) => {
   try {
     const user = new User({ username, email, password, role });
     await user.save();
-    res.json({ message: 'Registration successful' });
+    res.status(200).json({ message: 'Registration successful' });
   } catch (error) {
-    next(error);
+    // next(error);
+    return res.status(500).json({error: error.message})
   }
 };
 
 // Login with an existing user
 const login = async (req, res, next) => {
+  
   const { username, password } = req.body;
 
   try {
@@ -38,7 +40,8 @@ const login = async (req, res, next) => {
     });
     res.json({ token });
   } catch (error) {
-    next(error);
+    // next(error);
+    return res.status(500).json({error: error.message})
   }
 };
 

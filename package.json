@@ -8,6 +8,7 @@
     "test-win": "set NODE_ENV=test&& mocha --recursive --inspect --exit test"
   },
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
     "axios": "1.6.8",
     "crypto": "^1.0.1",
     "dotenv": "^16.4.5",
