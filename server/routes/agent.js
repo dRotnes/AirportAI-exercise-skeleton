@@ -1,7 +1,7 @@
 const express = require('express');
 const { authenticate } = require('../middlewares/auth');
-const { add_product, list_all, delete_product, update_product_status } = require('../controllers/agent');
-const { validate_add_product_input, validate_delete_and_update_product_input } = require('../middlewares/input_validation');
+const { add_product, list_all_products,list_all_reports, delete_product, delete_report, update_report_status } = require('../controllers/agent');
+const { validate_add_product_input, validate_delete_product_input, validate_delete_update_report_input } = require('../middlewares/input_validation');
 
 const router = express.Router();
 
@@ -15,14 +15,11 @@ const router = express.Router();
     @params:
         -Mandatory
             product_name: String,
-            product_category:String,
-            description: String
+            product_category:String
         -Optional:
             product_brand:String,
             product_color:String,
-            product_country:String,
-            retrieved: Boolean (automatic if empty),
-            status:String (automatic if empty)
+            product_country:String
 
     return type: success or error message 
 
@@ -35,7 +32,7 @@ router.post('/add_product', authenticate, validate_add_product_input, add_produc
 
     return type: JSON with list of products or empty message
 */
-router.get('/list_all_products', authenticate,list_all)
+router.get('/list_all_products', authenticate,list_all_products)
 
 /* 
     Delete product from database. 
@@ -47,18 +44,39 @@ router.get('/list_all_products', authenticate,list_all)
     return type: success or error message 
 
 */
-router.delete('/delete_product', authenticate,validate_delete_and_update_product_input, delete_product)
+router.delete('/delete_product', authenticate,validate_delete_product_input, delete_product)
 
 /* 
-    Update product status in database. 
-    @type: POST
+    Listing all reports in database
+    @type: GET
+
+    return type: JSON with list of reports or empty message
+*/
+router.get('/list_all_reports', authenticate,list_all_reports)
+
+/* 
+    Delete report from database. 
+    @type: DELETE
     @params:
         -Mandatory
-            product_id: String
+            report_id: String
 
     return type: success or error message 
 
 */
-router.post('/update_product_status', authenticate, validate_delete_and_update_product_input, update_product_status)
+router.delete('/delete_report', authenticate,validate_delete_update_report_input, delete_report)
+
+
+/* 
+    Update report status in database. 
+    @type: POST
+    @params:
+        -Mandatory
+            report_id: String
+
+    return type: success or error message 
+
+*/
+router.post('/update_report_status', authenticate, validate_delete_update_report_input, update_report_status)
 
 module.exports = router;

@@ -28,26 +28,6 @@ const productSchema = new mongoose.Schema(
     },
     product_country:{
         type:String
-    },
-    description:{
-        type: String,
-        required:true
-    },
-    added_by:{
-        type:String,
-        required:true,
-    },
-    status:{
-        type:String,
-        enum:[
-            'open',
-            'closed'
-        ],
-        default:'open'
-    },
-    retrieved:{
-        type:Boolean,
-        defualt:false
     }
   },
   { timestamps: true }
@@ -60,7 +40,6 @@ productSchema.index(
         product_brand: 'text', 
         product_color:'text', 
         product_country:'text',
-        description:'text'
     }
 );
 

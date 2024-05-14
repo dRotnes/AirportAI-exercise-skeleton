@@ -1,4 +1,39 @@
 const Product = require('../models/Product');
+const Report = require('../models/LossReport');
+
+// Create loss report
+const report_loss = async (req, res, next) => {
+    const { 
+        name,
+        last_name,
+        nationality,
+        document_number,
+        contact,
+        email,
+        address,
+        loss_description,
+        loss_time,
+    } = req.body;
+  
+    try {
+        const report = new Report({ 
+            name,
+            last_name,
+            nationality,
+            document_number,
+            contact,
+            email,
+            address,
+            loss_description,
+            loss_time,
+        });
+        await report.save();
+        res.status(200).json({ message: 'Report created successfully', report: report });
+    } catch (error) {
+        // next(error);
+        return res.status(500).json({error: error.message})
+    }
+  };
 
 // Search product by keyword and date
 const search_by_keyword= async (req, res, next) => {
@@ -39,4 +74,4 @@ const search_by_description = async (req, res, next) => {
         // next(error);
     }
 };
-module.exports = { search_by_keyword, search_by_description}
+module.exports = { search_by_keyword, search_by_description, report_loss}

@@ -1,5 +1,5 @@
 const Product = require('../models/Product');
-
+const Report =  require('../models/LossReport');
 // Add a new product
 const add_product = async (req, res, next) => {
   const { 
@@ -8,29 +8,39 @@ const add_product = async (req, res, next) => {
       product_brand,
       product_color,
       product_country,
-      description,
   } = req.body;
 
   try {
-    const added_by = req.user.username;
+    //Add product to database
     const product = new Product({ 
       product_name, 
       product_category, 
       product_brand,
       product_color,
       product_country,
-      description, 
-      added_by  
     });
     await product.save();
-    res.json({ message: 'Product added to Lost and Founds successfully' });
+
+    //Check if product matches existing report description
+    const query = {
+        $text: {$search: product_name},
+        status:'open'
+        //Can extend to filter by loss_time also, to ensure that the user is not just saying its theirs maliciously
+    };
+    const reports = await Report.find(query).sort({createdAt:'desc'});
+
+    if(reports.length > 0){
+      res.status(200).json({ message: 'Product added to Lost and Founds successfully', possible_matching_reports:reports });
+    }
+
+    res.status(200).json({ message: 'Product added to Lost and Founds successfully' });
   } catch (error) {
     return res.status(500).json({error: error.message})
   }
 };
 
 // List all products
-const list_all = async (req, res, next) => {
+const list_all_products = async (req, res, next) => {
   try {
     const products = await Product.find();
     if(products.length == 0){
@@ -38,6 +48,20 @@ const list_all = async (req, res, next) => {
     }
 
     res.json({ products });
+  } catch (error) {
+    return res.status(500).json({error: error.message})
+  }
+};
+
+// List all reports
+const list_all_reports = async (req, res, next) => {
+  try {
+    const reports = await Report.find();
+    if(reports.length == 0){
+      return res.status(404).json({ message: 'No reports to list' });
+    }
+
+    res.json({ reports });
   } catch (error) {
     return res.status(500).json({error: error.message})
   }
@@ -60,20 +84,44 @@ const delete_product = async (req, res, next) => {
   }
 };
 
-// Update product status
-const update_product_status = async (req, res, next) => {
+// Delete report
+const delete_report = async (req, res, next) => {
   try {
-    const { product_id } = req.body;
-    const product = await Product.updateOne({_id:product_id}, {$set: {retrieved: true, status: 'closed'}})
-    // console.log(product)
-    if(product.modifiedCount == 0){
-      return res.status(404).json({ message: 'Product not found' });
+    const { report_id } = req.body;
+    const report = await Report.deleteOne({_id:report_id})
+    
+    if(report.deletedCount == 0){
+      return res.status(404).json({ message: 'Report not found' });
     }
 
-    return res.status(200).json({message: `Product with id ${product_id} updated successfully`})
+    return res.status(200).json({message: `Report with id ${report_id} deleted successfully`})
   } catch (error) {
     // next(error)
     return res.status(500).json({error: error.message})
   }
 };
-module.exports = { add_product, list_all , delete_product, update_product_status}
+
+// Update product status
+const update_report_status = async (req, res, next) => {
+  try {
+    const { report_id } = req.body;
+    const report = await Report.updateOne({_id:report_id}, {$set: {status: 'closed - product retrieved'}})
+    
+    if(report.modifiedCount == 0){
+      return res.status(404).json({ message: 'Report not found' });
+    }
+
+    return res.status(200).json({message: `Report with id ${report_id} updated successfully`})
+  } catch (error) {
+    // next(error)
+    return res.status(500).json({error: error.message})
+  }
+};
+module.exports = { 
+  add_product, 
+  list_all_products, 
+  list_all_reports,
+  delete_product, 
+  delete_report,
+  update_report_status
+}
