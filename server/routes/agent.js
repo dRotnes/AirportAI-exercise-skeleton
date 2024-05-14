@@ -32,7 +32,7 @@ router.post('/add_product', authenticate, validate_add_product_input, add_produc
 
     return type: JSON with list of products or empty message
 */
-router.get('/list_all_products', authenticate,list_all_products)
+router.get('/list_all_products', authenticate, list_all_products)
 
 /* 
     Delete product from database. 

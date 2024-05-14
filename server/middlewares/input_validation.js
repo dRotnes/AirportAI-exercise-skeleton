@@ -140,7 +140,7 @@ const loss_report_schema = Joi.object({
     last_name:Joi.string().alphanum().required(),
     nationality:Joi.string().alphanum().required(),
     document_number:Joi.string().alphanum().required(),
-    contact:Joi.string().alphanum().required(),
+    contact:Joi.number().required(),
     email:Joi.string().email().required(),
     address:Joi.string().min(10).required(),
     loss_description:Joi.string().min(10).required(),
@@ -156,8 +156,6 @@ const validate_loss_report_input = (req, res, next) => {
   
     next();
 };
-
-
 
 module.exports = {
     validate_register_input, 
