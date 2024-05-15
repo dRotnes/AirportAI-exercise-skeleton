@@ -1,0 +1,361 @@
+{
+	"info": {
+		"_postman_id": "edaa2983-bc85-44d8-ba30-06c5690dd0d5",
+		"name": "Airport AI Technical Assessment - Lost and Founds",
+		"description": "The following collection has 11 endpoints under 2 folders.\n\n- **POST** Register: registers a new user to the database (only to allow for user creation for this project)\n- **POST** Login: verifies that a user is in the database and return a JWT token to be pasted at the Authentication tab of the Agent folder (in case role = admin)\n    \n\nAgent:\n\nMust be Logged with valid token\n\n- **POST** Add Product: adds a new product to the database and if any loss report matches the new product added, returns possible matches aswell\n    \n- **GET** List All Products: returns a list of all products in the database\n    \n- **GET** List All Reports: returns a list of all loss reports in the database\n    \n- **DELETE** Delete Product: deletes a product from the database\n    \n- **DELETE** Delete Report: deletes a report from the database\n    \n- **UPDATE** Update Report Status: updates a report status to 'closed - retrieved product' (to be used when a product is retrieved)\n    \n\nUser:\n\n- **POST** Report Loss: allows for a user to report a loss\n    \n- **GET** Search by keyword: allows for a user to search for lost products by a keyword and date of loss\n    \n- **GET** Search by description: allows for a user to search for lost products from a description and date of loss",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30434758"
+	},
+	"item": [
+		{
+			"name": "Agent",
+			"item": [
+				{
+					"name": "Add Product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"product_name\": \"Spider man tshirt\",\n  \"product_category\": \"Clothing\",\n  \"product_color\": \"Red\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/agent/add_product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"agent",
+								"add_product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List All Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/agent/list_all_products",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"agent",
+								"list_all_products"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List All Reports",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/agent/list_all_reports",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"agent",
+								"list_all_reports"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"product_id\":\"664121a28d0ce7a6ced6767e\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/agent/delete_product",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"agent",
+								"delete_product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Report",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"report_id\":\"664121a28d0ce7a6ced6767e\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/agent/delete_report",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"agent",
+								"delete_report"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Report Status",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"report_id\":\"664388df99d038fc2a39e1c9\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/agent/update_report_status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"agent",
+								"update_report_status"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "To use any agent endpoint, one must first login and paste the returned token under \"Bearer token\" on the Authorization tab",
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjQ0YTNiNjE3MTA2NWI2MTExYzE3YzMiLCJpYXQiOjE3MTU3NzQ0NTQsImV4cCI6MTcxNTc3ODA1NH0.NseKP5xALmcwSy8KAzqIi89TGlweelvpiKNzatV3SBM",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Report Loss",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\":\"Gabriel\",\n    \"last_name\":\"Portugal\",\n    \"nationality\":\"Brazil\",\n    \"document_number\":\"12345678\",\n    \"contact\":\"192031329\",\n    \"email\":\"assba@gmail.com\",\n    \"address\":\"alksjdalksd\",\n    \"loss_description\":\"Lost my Spiderman tshirt yesterday please help\",\n    \"loss_time\":\"2021-05-20\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/report_loss",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"report_loss"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search by Keyword",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"keyword\":\"Iphone\",\n    \"date\": \"2023-12-12\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/search_by_keyword",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"search_by_keyword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search by Description",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\":\"Lost my Book at terminal 12\",\n    \"date\": \"2023-12-12\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/user/search_by_description",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"user",
+								"search_by_description"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"aiportai_admin4\",\n  \"email\": \"admin4@airportai.com\",\n  \"password\": \"123456789\",\n  \"role\":\"admin\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"aiportai_admin4\",\n  \"password\": \"123456789\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
