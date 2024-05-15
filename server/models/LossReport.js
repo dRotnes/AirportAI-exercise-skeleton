@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// Loss report schema
 const reportSchema = new mongoose.Schema(
   {
     name:{
@@ -51,6 +52,7 @@ const reportSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Text index to allow search 
 reportSchema.index(
     { 
         loss_description:'text'

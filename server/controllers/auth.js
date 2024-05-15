@@ -9,10 +9,11 @@ const register = async (req, res, next) => {
   try {
     const user = new User({ username, email, password, role });
     await user.save();
-    res.status(200).json({ message: 'Registration successful' });
+    
+    res.status(201).json({ message: 'Registration successful' });
   } catch (error) {
-    // next(error);
-    return res.status(500).json({error: error.message})
+    next(error);
+    // return res.status(500).json({error: error.message})
   }
 };
 
@@ -38,10 +39,10 @@ const login = async (req, res, next) => {
     const token = jwt.sign({ userId: user._id }, process.env.SECRET_KEY, {
       expiresIn: '1 hour'
     });
-    res.json({ token });
+    res.status(200).json({ token });
   } catch (error) {
-    // next(error);
-    return res.status(500).json({error: error.message})
+    next(error);
+    // return res.status(500).json({error: error.message})
   }
 };
 

@@ -21,7 +21,7 @@ const router = express.Router();
             product_color:String,
             product_country:String
 
-    return type: success or error message 
+    return type: success message (with or without possible report matching) 
 
 */
 router.post('/add_product', authenticate, validate_add_product_input, add_product);
@@ -41,7 +41,7 @@ router.get('/list_all_products', authenticate, list_all_products)
         -Mandatory
             product_id: String
 
-    return type: success or error message 
+    return type: success message 
 
 */
 router.delete('/delete_product', authenticate,validate_delete_product_input, delete_product)
@@ -61,7 +61,7 @@ router.get('/list_all_reports', authenticate,list_all_reports)
         -Mandatory
             report_id: String
 
-    return type: success or error message 
+    return type: success message 
 
 */
 router.delete('/delete_report', authenticate,validate_delete_update_report_input, delete_report)
@@ -74,7 +74,7 @@ router.delete('/delete_report', authenticate,validate_delete_update_report_input
         -Mandatory
             report_id: String
 
-    return type: success or error message 
+    return type: success message
 
 */
 router.post('/update_report_status', authenticate, validate_delete_update_report_input, update_report_status)

@@ -3,10 +3,11 @@ const Joi = require('@hapi/joi');
 
 /*
     Schema for user registering:
-    username between 3 and 30 characters REQUIRED
-    email REQUIRED
-    password between 6 and 30 characters REQUIRED
-    role alphanumeric
+
+    -username between 3 and 30 characters REQUIRED
+    -email REQUIRED
+    -password between 6 and 30 characters REQUIRED
+    -role alphanumeric
 */
 const register_schema = Joi.object({
     username:Joi.string().allow('_').min(3).max(30).required(),
@@ -27,12 +28,13 @@ const validate_register_input = (req, res, next) => {
 
 /*
     Schema for adding new product:
-    product_name minimum 5 characters REQUIRED
-    product_category alphanumeric REQUIRED
-    product_brand alphanumeric
-    product_color alphanumeric
-    product_country alphanumeric
-    description minimum 20 characters REQUIRED
+
+    -product_name minimum 5 characters REQUIRED
+    -product_category alphanumeric REQUIRED
+    -product_brand alphanumeric
+    -product_color alphanumeric
+    -product_country alphanumeric
+    -description minimum 20 characters REQUIRED
 */
 const add_product_schema = Joi.object({
     product_name:Joi.string().min(5).required(),
@@ -53,7 +55,8 @@ const validate_add_product_input = (req, res, next) => {
 
 /*
     Schema for deleting product:
-    product_id base 64 REQUIRED
+
+    -product_id base 64 REQUIRED
 */
 
 const delete_product_schema = Joi.object({
@@ -71,7 +74,8 @@ const validate_delete_product_input = (req, res, next) => {
 
 /*
     Schema for deleting  or updating report:
-    report_id base 64 REQUIRED
+
+    -report_id base 64 REQUIRED
 */
 
 const delete_update_report_schema = Joi.object({
@@ -90,8 +94,9 @@ const validate_delete_update_report_input = (req, res, next) => {
 
 /*
     Schema for searching for a product by keyword:
-    keyword maximum 30 characters REQUIRED
-    date
+
+    -keyword maximum 30 characters REQUIRED
+    -date
 */
 
 const search_by_keyword_schema = Joi.object({
@@ -109,9 +114,10 @@ const validate_search_by_keyword_input = (req, res, next) => {
 };
 
 /*
-    Schema for searching for a product:
-    description minimum 10 characters REQUIRED
-    date
+    Schema for searching for a product by description:
+
+    -description minimum 10 characters REQUIRED
+    -date
 */
 const search_by_description_schema = Joi.object({
     description:Joi.string().min(10).required(),
@@ -130,10 +136,10 @@ const validate_search_by_description_input = (req, res, next) => {
 /*
     Schema for loss report creation:
 
-    username between 3 and 30 characters REQUIRED
-    email REQUIRED
-    password between 6 and 30 characters REQUIRED
-    role alphanumeric
+    -username between 3 and 30 characters REQUIRED
+    -email REQUIRED
+    -password between 6 and 30 characters REQUIRED
+    -role alphanumeric
 */
 const loss_report_schema = Joi.object({
     name:Joi.string().alphanum().required(),

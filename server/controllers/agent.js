@@ -1,5 +1,6 @@
 const Product = require('../models/Product');
 const Report =  require('../models/LossReport');
+
 // Add a new product
 const add_product = async (req, res, next) => {
   const { 
@@ -19,23 +20,31 @@ const add_product = async (req, res, next) => {
       product_color,
       product_country,
     });
+
+    const product_id = product._id;
+
     await product.save();
 
     //Check if product matches existing report description
     const query = {
         $text: {$search: product_name},
         status:'open'
-        //Can extend to filter by loss_time also, to ensure that the user is not just saying its theirs maliciously
     };
     const reports = await Report.find(query).sort({createdAt:'desc'});
 
+    //Return success with possible matches
     if(reports.length > 0){
-      res.status(200).json({ message: 'Product added to Lost and Founds successfully', possible_matching_reports:reports });
+      res.status(200).json({ message: 'Product added to Lost and Founds successfully', product_id:product_id, possible_matching_reports:reports });
+    }
+    else{
+      //Return success
+      res.status(200).json({ message: 'Product added to Lost and Founds successfully', product_id:product_id });
     }
 
-    res.status(200).json({ message: 'Product added to Lost and Founds successfully' });
   } catch (error) {
-    return res.status(500).json({error: error.message})
+      next(error)
+    // return res.status(500).json({error: error.message})
+
   }
 };
 
@@ -49,7 +58,9 @@ const list_all_products = async (req, res, next) => {
 
     res.json({ products });
   } catch (error) {
-    return res.status(500).json({error: error.message})
+      next(error)
+    // return res.status(500).json({error: error.message})
+
   }
 };
 
@@ -63,7 +74,9 @@ const list_all_reports = async (req, res, next) => {
 
     res.json({ reports });
   } catch (error) {
-    return res.status(500).json({error: error.message})
+      next(error)
+    // return res.status(500).json({error: error.message})
+
   }
 };
 
@@ -79,8 +92,9 @@ const delete_product = async (req, res, next) => {
 
     return res.status(200).json({message: `Product with id ${product_id} deleted successfully`})
   } catch (error) {
-    // next(error)
-    return res.status(500).json({error: error.message})
+      next(error)
+    // return res.status(500).json({error: error.message})
+
   }
 };
 
@@ -96,12 +110,13 @@ const delete_report = async (req, res, next) => {
 
     return res.status(200).json({message: `Report with id ${report_id} deleted successfully`})
   } catch (error) {
-    // next(error)
-    return res.status(500).json({error: error.message})
+      next(error)
+    // return res.status(500).json({error: error.message})
+
   }
 };
 
-// Update product status
+// Update product status (to be used only when product is retrieved by user)
 const update_report_status = async (req, res, next) => {
   try {
     const { report_id } = req.body;
@@ -113,10 +128,12 @@ const update_report_status = async (req, res, next) => {
 
     return res.status(200).json({message: `Report with id ${report_id} updated successfully`})
   } catch (error) {
-    // next(error)
-    return res.status(500).json({error: error.message})
+      next(error)
+    // return res.status(500).json({error: error.message})
+
   }
 };
+
 module.exports = { 
   add_product, 
   list_all_products, 

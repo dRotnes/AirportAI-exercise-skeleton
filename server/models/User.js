@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const crypto = require('crypto');
 
+// User schema
 const userSchema = new mongoose.Schema(
   {
     username: {
@@ -50,7 +51,8 @@ userSchema.methods.comparePassword = async function (password) {
   return this.password === hash;
 };
 
-userSchema.methods.checkAdminStatus = async function (next) {
+// Check for admin status
+userSchema.methods.checkAdminStatus = async function () {
   return this.role == 'admin'
 }
 

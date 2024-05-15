@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// Product schema
 const productSchema = new mongoose.Schema(
   {
     product_name: {
@@ -33,6 +34,7 @@ const productSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Text index to allow search
 productSchema.index(
     { 
         product_name: 'text', 
