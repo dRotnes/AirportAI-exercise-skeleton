@@ -23,5 +23,5 @@ If everything is ok, you should see a 'Hello world!' message when you go to 'htt
 
 ### Running the project
 Run npm run server to start project with nodemon or npm start to run the application. In another terminal run npm run test to run a simple test script for a possible real-world scenario.
-```
+
 To test all endpoints, use the postman collection.
